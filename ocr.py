@@ -2,6 +2,7 @@ from imutils.perspective import four_point_transform
 import pytesseract
 from pytesseract import Output
 from autocorrect import Speller
+from py_edamam import Edamam
 import argparse
 import imutils
 import cv2
@@ -20,6 +21,11 @@ ap.add_argument('--lang', type=str)
 args = vars(ap.parse_args())
 
 assert args["image"] or args["dir"], "Either image or directory is needed"
+
+edamam = Edamam(
+            food_appid='8ab63521',
+            food_appkey='63b1bfa108af89681b61030fa9437f34'
+        )           
 
 imageList = []
 
@@ -154,6 +160,8 @@ for i, filename in enumerate(imageList):
     print("[INFO] text words:")
     print("========================")
     spell = Speller(lang=args["lang"] or 'en')
+    allItems = []
+
     for j, line in enumerate(priceLineItems):
         line = re.sub('\?|\.|\!|\/|\;|\:|\'|\"|\\|\=|\-|\‘|', '', line)
         words = [x for x in line.split(" ")]
@@ -171,4 +179,20 @@ for i, filename in enumerate(imageList):
                 break
         if mistaken:
             words = []
+
         print("Line: %d; Words: " % (j), words)
+
+        # Filter words
+        # Atleast one of the words should be a food item
+        isFood = False
+        for item in words:
+            result = edamam.search_food(item)
+            if len(result['parsed']) >= 1:
+                isFood = True
+                break
+
+        if len(words) and isFood:
+            itemName = ' '.join(words)
+            allItems.append(itemName)
+
+    print("All items: ", allItems)
