@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "email": "tsetuser@gmail.com",
+            "name": "Hamburger",
+            "amountConsumed": 1000,
+            "units": "grams",
+            "carbonFootprintValue": 0.5
+        },
+        {
+            "email": "tsetuser2@gmail.com",
+            "name": "Cheeseburger",
+            "amountConsumed": 2000,
+            "units": "grams",
+            "carbonFootprintValue": 1.5
+        },
+        {
+            "email": "tsetuser3@gmail.com",
+            "name": "Carrot",
+            "amountConsumed": 100,
+            "units": "grams",
+            "carbonFootprintValue": 0.2
+        }
+    ]
+}
