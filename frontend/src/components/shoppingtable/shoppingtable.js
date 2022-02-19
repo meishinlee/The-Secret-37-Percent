@@ -94,7 +94,7 @@ export default function ShoppingListTable() {
                   {<FoodModal />}
                 </TableCell>
                 <TableCell align="center">{item.name}</TableCell>
-                <TableCell align="center">{item.amountConsumed}</TableCell>
+                <TableCell align="center">{item.amountConsumed+ " " + item.units}</TableCell>
                 <TableCell align="center">{item.carbonFootprintValue}</TableCell>
                 <TableCell align="center"><Button variant="contained" color="error" startIcon={<DeleteIcon />}>
                   Delete

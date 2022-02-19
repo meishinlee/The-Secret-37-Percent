@@ -96,7 +96,6 @@ const Home = () => {
                         <Button variant="contained" color="success" onClick={addToDb} onMouseLeave={() => setDisplayGreen(true)}>Add!</Button>}
                 </Stack>
             </Box>
-            {/* <GetDataFromJSON /> */}
             <Box mt={5} alignItems="center">
                 <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                     <h3>Shopping List <span role="img" aria-label="list">📃</span></h3>

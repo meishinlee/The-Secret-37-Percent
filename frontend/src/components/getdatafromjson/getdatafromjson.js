@@ -14,24 +14,12 @@ function GetDataFromJSON() {
             setList(data.data.items)
             console.log('list', list)
         })
-    // getList()
-    //   .then(items => {
-    //     if(mounted) {
-    //       setList(items)
-    //       console.log('setList', items)
-    //     }
-    //   })
     return () => mounted = false;
   }, [])
 
   return(
     <div className="wrapper">
-     {/* <h1>My Grocery List</h1> */}
-     <ul>
-       {list.map(item => <li key={item.item}>{item.name}</li>)}
-     </ul>
    </div>
-  // <div></div>
   )
 }
 
