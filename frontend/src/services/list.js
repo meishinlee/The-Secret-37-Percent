@@ -1,8 +1,9 @@
-export function getList() {
+import axios from 'axios'
 
-    return fetch('http://localhost:5000/items')
+export async function getList() {
+    return axios.get('http://localhost:5000/items?email=testuser@gmail.com')
         .then(data => {
-            console.log(data);
-            return data.json();
+            console.log('asdsada',data)
+            return data
         })
 }
