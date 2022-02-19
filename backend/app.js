@@ -20,7 +20,7 @@ const users = require('./routes/users')
 //connect to mongoose
 const mongoose = require("mongoose")
 mongoose.connect(
-    "mongodb+srv://testuser:testuser123@cluster0.9fxli.mongodb.net/treehacks?retryWrites=true&w=majority",
+    "mongodb+srv://testuser:Testuser123!@cluster0.yn0mi.mongodb.net/treehacks?retryWrites=true&w=majority",
     // process.env.CONNECTION_STRING,
     { useNewUrlParser: true }
 )
