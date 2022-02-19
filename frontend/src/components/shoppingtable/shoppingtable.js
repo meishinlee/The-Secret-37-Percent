@@ -15,51 +15,6 @@ import FoodModal from '../foodmodal/foodmodal';
 import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
 import axios from 'axios'
 
-// const data = GetDataFromJSON();
-//console.log(data);
-// const data = [
-//     {
-//         "email": "tsetuser@gmail.com",
-//         "name": "Hamburger",
-//         "amountConsumed": 1000,
-//         "units": "grams",
-//         "carbonFootprintValue": 0.5
-//     },
-//     {
-//         "email": "tsetuser2@gmail.com",
-//         "name": "Cheeseburger",
-//         "amountConsumed": 2000,
-//         "units": "grams",
-//         "carbonFootprintValue": 1.5
-//     },
-//     {
-//         "email": "tsetuser3@gmail.com",
-//         "name": "Carrot",
-//         "amountConsumed": 100,
-//         "units": "grams",
-//         "carbonFootprintValue": 0.2
-//     }
-// ]
-
-// function createData(name, amountConsumed, carbonFootprintValue) {
-//     return { name, amountConsumed, carbonFootprintValue};
-// }
-
-// const rows = []; 
-
-// for(let i = 0; i < data.length; i++) {
-//     var foodString = data[i].amountConsumed + " " + data[i].units; 
-//     rows.push(createData(data[i].name, foodString, data[i].carbonFootprintValue));
-// }
-// console.log(rows);
-//   const rows = [
-//     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//     createData('Eclair', 262, 16.0, 24, 6.0),
-//     createData('Cupcake', 305, 3.7, 67, 4.3),
-//     createData('Gingerbread', 356, 16.0, 49, 3.9),
-//   ];
-
 export default function ShoppingListTable() {
   const [items, setItems] = React.useState([]);
 
