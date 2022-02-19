@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import React from 'react'
+import React, { useEffect } from 'react'
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import FoodModal from '../foodmodal/foodmodal';
 import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
+import axios from 'axios'
 
 // const data = GetDataFromJSON();
 //console.log(data);
@@ -43,7 +44,7 @@ import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
 // function createData(name, amountConsumed, carbonFootprintValue) {
 //     return { name, amountConsumed, carbonFootprintValue};
 // }
-  
+
 // const rows = []; 
 
 // for(let i = 0; i < data.length; i++) {
@@ -58,11 +59,20 @@ import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
 //     createData('Cupcake', 305, 3.7, 67, 4.3),
 //     createData('Gingerbread', 356, 16.0, 49, 3.9),
 //   ];
-  
-  export default function ShoppingListTable() {
-    return (
-        <div>
-        <GetDataFromJSON/>
+
+export default function ShoppingListTable() {
+  const [items, setItems] = React.useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+      .then(res => {
+        setItems(res.data.items);
+      })
+  }, [])
+
+  return (
+    <div>
+      <GetDataFromJSON />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -74,26 +84,26 @@ import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
               <TableCell align="center">Delete</TableCell>
             </TableRow>
           </TableHead>
-          {/* <TableBody>
-            {rows.map((row) => (
+          <TableBody>
+            {items && items.map((item) => (
               <TableRow
-                key={row.name}
+                key={item.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                    {<FoodModal/>}
+                  {<FoodModal />}
                 </TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.amountConsumed}</TableCell>
-                <TableCell align="center">{row.carbonFootprintValue}</TableCell>
+                <TableCell align="center">{item.name}</TableCell>
+                <TableCell align="center">{item.amountConsumed}</TableCell>
+                <TableCell align="center">{item.carbonFootprintValue}</TableCell>
                 <TableCell align="center"><Button variant="contained" color="error" startIcon={<DeleteIcon />}>
-                            Delete
-                        </Button></TableCell>
+                  Delete
+                </Button></TableCell>
               </TableRow>
             ))}
-          </TableBody> */}
+          </TableBody>
         </Table>
       </TableContainer>
-      </div>
-    );
-  }
+    </div>
+  );
+}

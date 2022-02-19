@@ -42,10 +42,12 @@ const Home = () => {
     };
 
     const addToDb = (e) => {
+
+        let intAmountConsumed = parseInt(amountConsumed);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
             "name": name,
-            "amountConsumed": amountConsumed,
+            "amountConsumed": intAmountConsumed,
             "units": units,
             // "carbonFootprintValue": 3
           });
@@ -77,7 +79,7 @@ const Home = () => {
 
                 <Stack direction="row" spacing={2} alignItems="center" pt={3}>
                     <TextField onChange={e => { setName(e.target.value) }} fullWidth id="food" label="Enter a food" variant="outlined" />
-                    <TextField onChange={e => { setAmountConsumed(e.target.amountConsumed) }} fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />
+                    <TextField onChange={e => { setAmountConsumed(e.target.value) }} fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />
                     <FormControl fullwidth variant="standard" style={{ minWidth: 120 }}>
                         <InputLabel fullwidth id="select-units">Units</InputLabel>
                         <Select fullwidth labelId="select-units"
