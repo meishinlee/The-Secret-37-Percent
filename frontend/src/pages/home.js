@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Menu from '@mui/material/Menu';
@@ -20,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import FoodModal from '../components/foodmodal/foodmodal';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
+import GetDataFromJSON from '../components/getdatafromjson/getdatafromjson';
 
 const Home = () => {
     const [displayGreen, setDisplayGreen] = useState(false);
@@ -40,7 +41,7 @@ const Home = () => {
                 <TextField fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />  
                 <FormControl fullwidth variant="standard" style={{minWidth: 120}}>
                 <InputLabel fullwidth id="select-units">Units</InputLabel>
-                <Select fullwdith labelId="select-units"
+                <Select fullwidth labelId="select-units"
                     id="select-units"
                     value={units}
                     label="Units"
@@ -54,7 +55,7 @@ const Home = () => {
                 <Button variant="contained" color="success" onMouseLeave={() => setDisplayGreen(true)}>Add!</Button>}
             </Stack>
             </Box>
-
+            {/* <GetDataFromJSON /> */}
             <Box mt = {5} alignItems = "center">
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                 <h3>Shopping List <span role="img" aria-label="list">📃</span></h3>

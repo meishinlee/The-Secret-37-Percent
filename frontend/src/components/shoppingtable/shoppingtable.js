@@ -12,40 +12,45 @@ import Box from '@mui/material/Box'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import FoodModal from '../foodmodal/foodmodal';
+import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
 
-const data = [
-    {
-        "email": "tsetuser@gmail.com",
-        "name": "Hamburger",
-        "amountConsumed": 1000,
-        "units": "grams",
-        "carbonFootprintValue": 0.5
-    },
-    {
-        "email": "tsetuser2@gmail.com",
-        "name": "Cheeseburger",
-        "amountConsumed": 2000,
-        "units": "grams",
-        "carbonFootprintValue": 1.5
-    },
-    {
-        "email": "tsetuser3@gmail.com",
-        "name": "Carrot",
-        "amountConsumed": 100,
-        "units": "grams",
-        "carbonFootprintValue": 0.2
-    }
-]
+// const data = GetDataFromJSON();
+//console.log(data);
+// const data = [
+//     {
+//         "email": "tsetuser@gmail.com",
+//         "name": "Hamburger",
+//         "amountConsumed": 1000,
+//         "units": "grams",
+//         "carbonFootprintValue": 0.5
+//     },
+//     {
+//         "email": "tsetuser2@gmail.com",
+//         "name": "Cheeseburger",
+//         "amountConsumed": 2000,
+//         "units": "grams",
+//         "carbonFootprintValue": 1.5
+//     },
+//     {
+//         "email": "tsetuser3@gmail.com",
+//         "name": "Carrot",
+//         "amountConsumed": 100,
+//         "units": "grams",
+//         "carbonFootprintValue": 0.2
+//     }
+// ]
 
-function createData(name, amountConsumed, carbonFootprintValue) {
-    return { name, amountConsumed, carbonFootprintValue};
-}
+// function createData(name, amountConsumed, carbonFootprintValue) {
+//     return { name, amountConsumed, carbonFootprintValue};
+// }
   
-const rows = []; 
+// const rows = []; 
 
-for(let i = 0; i < data.length; i++) {
-rows.push(createData(data[i].name, data[i].amountConsumed, data[i].carbonFootprintValue));
-}
+// for(let i = 0; i < data.length; i++) {
+//     var foodString = data[i].amountConsumed + " " + data[i].units; 
+//     rows.push(createData(data[i].name, foodString, data[i].carbonFootprintValue));
+// }
+// console.log(rows);
 //   const rows = [
 //     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
 //     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
@@ -56,6 +61,8 @@ rows.push(createData(data[i].name, data[i].amountConsumed, data[i].carbonFootpri
   
   export default function ShoppingListTable() {
     return (
+        <div>
+        <GetDataFromJSON/>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -67,7 +74,7 @@ rows.push(createData(data[i].name, data[i].amountConsumed, data[i].carbonFootpri
               <TableCell align="center">Delete</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          {/* <TableBody>
             {rows.map((row) => (
               <TableRow
                 key={row.name}
@@ -84,8 +91,9 @@ rows.push(createData(data[i].name, data[i].amountConsumed, data[i].carbonFootpri
                         </Button></TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </TableContainer>
+      </div>
     );
   }
