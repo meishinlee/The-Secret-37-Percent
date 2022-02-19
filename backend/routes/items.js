@@ -1,6 +1,7 @@
-const express = require("express")
 const Item = require("../models/Item")
+const express = require("express")
 const User = require("../models/User")
+const { route } = require("./users")
 const router = express.Router()
 
 router.post("/", (req, res) => {
@@ -58,5 +59,41 @@ router.get("/", (req, res) => {
     }
   })
 })
+
+router.patch('/:id', async (req, res) => {
+  const item = await Item.findById(req.params.id)
+  if (!item) {
+    return res.status(404).send(
+      'The product with the given ID was not found.'
+    )
+  }
+  let query = { $set: {} };
+  for (let key in req.body) {
+    if (item[key] && item[key] !== req.body[key]) // if the field we have in req.body exists, we're gonna update it
+      query.$set[key] = req.body[key];
+
+    const updatedItem = await Item.updateOne({
+      _id: req.params.id
+    }, query)
+
+    res.send(updatedItem)
+  }
+})
+
+router.delete('/:id', (req, res) => {
+  Item.deleteOne({ _id: req.params.id }, (err) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send({
+        success: true,
+        message: "Item deleted"
+      })
+    }
+  }) 
+})
+
+
+
 
 module.exports = router
