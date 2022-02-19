@@ -1,27 +1,15 @@
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-import React, { useState, useEffect } from 'react';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Menu from '@mui/material/Menu';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import List from '@mui/material/List';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import FoodModal from '../components/foodmodal/foodmodal';
+import axios from 'axios';
+import React, { useState } from 'react';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
-import GetDataFromJSON from '../components/getdatafromjson/getdatafromjson';
-import axios from 'axios'
 
 const Home = () => {
     const [displayGreen, setDisplayGreen] = useState(false);
@@ -42,7 +30,6 @@ const Home = () => {
     };
 
     const addToDb = (e) => {
-
         let intAmountConsumed = parseInt(amountConsumed);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
