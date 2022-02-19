@@ -57,12 +57,12 @@ const Home = () => {
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
             <h2>Shopping List <span role="img" aria-label="list">📃</span></h2>
           </Typography>
-          <List dense={dense} >
+          <List dense={dense}>
               
                 <ListItem>
                   <ListItemAvatar>
                     {/* <Avatar> */}
-                    <h5><span role="img" aria-label="plant">🌿</span></h5>
+                    <h5 ml = {10}><span role="img" aria-label="plant">🌿</span></h5>
                     {/* </Avatar> */}
                   </ListItemAvatar>
                   <ListItemText
