@@ -18,6 +18,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import FoodModal from '../components/foodmodal/foodmodal';
 
 const Home = () => {
     const [displayGreen, setDisplayGreen] = useState(false);
@@ -58,19 +59,25 @@ const Home = () => {
             <h2>Shopping List <span role="img" aria-label="list">📃</span></h2>
           </Typography>
           <List dense={dense}>
-              
+              <Box spacing = {2}>
                 <ListItem>
-                  <ListItemAvatar>
                     {/* <Avatar> */}
-                    <h5 ml = {10}><span role="img" aria-label="plant">🌿</span></h5>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                    <FoodModal />
+                    <ListItemText
+                    primary="INGREDIENT NAME HERE"
+                    secondary={secondary ? 'Secondary text' : null}/>
+                    <ListItemText>AMOUNT CONSUMED + UNITS</ListItemText>
+                    <ListItemText>CARBON FOOTPRINT OF INGREDIENT VALUE</ListItemText>
+                    <Button variant="outlined" startIcon={<DeleteIcon />}>
+                        Delete
+                    </Button>
+
+                  </Stack>
+                    {/* <h5 ml = {10}><span role="img" aria-label="plant">🌿</span></h5> */}
                     {/* </Avatar> */}
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary={secondary ? 'Secondary text' : null}
-                  />
                 </ListItem>,
-              
+                </Box>
             </List>
             </Box>
             
