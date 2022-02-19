@@ -24,6 +24,31 @@ export default function ShoppingListTable() {
         setItems(res.data.items);
       })
   }, [])
+  
+  const handleDelete = (e) => {
+    e.preventDefault();
+    
+    let id = e.target.id;
+
+    var config = {
+      method: 'delete',
+      url: `http://localhost:5000/items/${id}`,
+      headers: { }
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+    axios.delete(`http://localhost:5000/items/${id}`).then(res => {
+      console.log(res.data)
+    })
+  }
 
   return (
     <div>
@@ -42,7 +67,7 @@ export default function ShoppingListTable() {
           <TableBody>
             {items && items.map((item) => (
               <TableRow
-                key={item.name}
+                key={item._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
@@ -51,7 +76,7 @@ export default function ShoppingListTable() {
                 <TableCell align="center">{item.name}</TableCell>
                 <TableCell align="center">{item.amountConsumed+ " " + item.units}</TableCell>
                 <TableCell align="center">{item.carbonFootprintValue}</TableCell>
-                <TableCell align="center"><Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+                <TableCell align="center"><Button id={item._id}  onClick={handleDelete} variant="contained" color="error" startIcon={<DeleteIcon />}>
                   Delete
                 </Button></TableCell>
               </TableRow>
