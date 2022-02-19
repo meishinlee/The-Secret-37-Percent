@@ -22,7 +22,7 @@ const FoodModal = () => {
         const handleClose = () => setOpen(false);
   return (
     <div>
-        <Button variant="contained" color="success" onClick={handleOpen}><h3><span role="img" aria-label="plant-pot">🪴</span></h3> Find Alternatives</Button>
+        <Button variant="contained" color="success" onClick={handleOpen}><h3><span role="img" aria-label="plant-pot">🪴</span></h3>Alternatives</Button>
         <Modal
         open={open}
         onClose={handleClose}

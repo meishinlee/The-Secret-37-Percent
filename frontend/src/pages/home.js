@@ -30,11 +30,11 @@ const Home = () => {
   const [secondary, setSecondary] = React.useState(false);
     return (
         <div>
-            <Box pt = {5} ml={10} pl={3} pr = {3} mr = {10}>
-            <h1>Let's Improve Planet Health Together <span role="img" aria-label="plant">🌿</span></h1>
+            <Box pt = {0} ml={10} pl={3} pr = {3} mr = {10}>
+            {/* <h1>Let's Improve Planet Health Together <span role="img" aria-label="plant">🌿</span></h1> */}
             <h2 >Tracking our carbon footprint a step at a time <span role="img" aria-label="footprint">👣</span></h2>
             
-            <Stack direction="row" spacing={2} alignItems="center" pt = {10}>
+            <Stack direction="row" spacing={2} alignItems="center" pt = {3}>
                 <TextField fullWidth id="food" label="Enter a food" variant="outlined" />
                 <TextField fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />  
                 <FormControl fullwidth variant="standard" style={{minWidth: 120}}>
@@ -54,25 +54,24 @@ const Home = () => {
             </Stack>
             </Box>
 
-            <Box mt = {10}>
+            <Box mt = {5} alignItems = "center">
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            <h2>Shopping List <span role="img" aria-label="list">📃</span></h2>
-          </Typography>
-          <List dense={dense}>
-              <Box spacing = {2}>
-                <ListItem>
+                <h3>Shopping List <span role="img" aria-label="list">📃</span></h3>
+            </Typography>
+            <List dense={dense} alignItems = 'center'>
+              <Box spacing = {3} alignItems = "center">
+                <ListItem alignItems = "center">
                     {/* <Avatar> */}
                     <Stack direction="row" spacing={2} alignItems="center">
-                    <FoodModal />
-                    <ListItemText
-                    primary="INGREDIENT NAME HERE"
-                    secondary={secondary ? 'Secondary text' : null}/>
-                    <ListItemText>AMOUNT CONSUMED + UNITS</ListItemText>
-                    <ListItemText>CARBON FOOTPRINT OF INGREDIENT VALUE</ListItemText>
-                    <Button variant="outlined" startIcon={<DeleteIcon />}>
-                        Delete
-                    </Button>
-
+                        <FoodModal />
+                        <ListItemText
+                            primary="INGREDIENT 1"
+                            secondary={secondary ? 'Secondary text' : null}/>
+                        <ListItemText>AMNT CONSUMED/UNITS</ListItemText>
+                        <ListItemText>CARBON FOOTPRINT OF INGREDIENT</ListItemText>
+                        <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+                            Delete
+                        </Button>
                   </Stack>
                     {/* <h5 ml = {10}><span role="img" aria-label="plant">🌿</span></h5> */}
                     {/* </Avatar> */}
