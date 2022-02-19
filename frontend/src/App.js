@@ -80,9 +80,12 @@ function App() {
             >
               <MenuIcon />
             </IconButton>
+            <Box align="center" pl= {42}>
             <Typography>
+              <h2 pt = {20}>Let's Improve Planet Health Together <span role="img" aria-label="plant">🌿</span></h2>
               {/* <img src={StonksLogo} width="40px" height="40px" /> */}
             </Typography>
+            </Box>
           </Toolbar>
         </AppBar>
 
@@ -150,10 +153,6 @@ function App() {
         <Box
           component="main"
           sx={{
-            // backgroundColor: (theme) =>
-            //   theme.palette.mode === 'light'
-            //     ? theme.palette.grey[100]
-            //     : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
