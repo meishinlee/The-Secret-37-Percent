@@ -12,7 +12,6 @@ import Box from '@mui/material/Box'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import FoodModal from '../foodmodal/foodmodal';
-import GetDataFromJSON from '../getdatafromjson/getdatafromjson';
 import axios from 'axios'
 
 export default function ShoppingListTable() {
@@ -52,7 +51,6 @@ export default function ShoppingListTable() {
 
   return (
     <div>
-      <GetDataFromJSON />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
