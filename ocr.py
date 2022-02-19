@@ -1,6 +1,7 @@
 from imutils.perspective import four_point_transform
 import pytesseract
 from pytesseract import Output
+from autocorrect import Speller
 import argparse
 import imutils
 import cv2
@@ -115,3 +116,59 @@ for i, filename in enumerate(imageList):
     print("==================")
     print(text)
     print("\n")
+
+    textLines = text.split("\n")
+
+
+    #### PROCESSING
+
+    """
+    Plan:
+
+    1. For lines with floats, get that line and lines before (if applicable)
+    2. Separate the floating point value(s), and separate the string in each of the lines
+    3. Print these strings    
+    """
+    # created using https://regexr.com/
+    pricePattern = r'([0-9]+(\.|\,)[0-9]+)'
+
+    # show the output of filtering out *only* the line items in the
+    # receipt
+    priceLineItems = []
+    print("[INFO] price line items:")
+    print("========================")
+    # loop over each of the line items in the OCR'd receipt
+    for j, row in enumerate(textLines):
+        # check to see if the price regular expression matches the current
+        # row
+        if re.search(pricePattern, row) is not None:
+            priceLineItems.append(row)
+            if j > 0:
+                if textLines[j-1] not in priceLineItems:
+                    priceLineItems.append(textLines[j-1])  
+    print(priceLineItems)
+
+
+    commonlyMistakenWords = ['amount', 'cash', 'change', 'tax', 'count', 'total', 'payment', 'details', 'subtotal']
+
+    print("[INFO] text words:")
+    print("========================")
+    spell = Speller(lang=args["lang"] or 'en')
+    for j, line in enumerate(priceLineItems):
+        line = re.sub('\?|\.|\!|\/|\;|\:|\'|\"|\\|\=|\-|\‘|', '', line)
+        words = [x for x in line.split(" ")]
+
+        words = list(filter(lambda x: str.isalpha(x), words))
+        words = list(filter(lambda x: len(x) >= 4, words))
+        
+        # Perform spelling correction - is this neccessary? - It might CHANGE some words not in its dictionary
+        words = list(map(lambda x: spell(x), words))
+
+        mistaken = False
+        for word in words:
+            if word.lower() in commonlyMistakenWords:
+                mistaken = True
+                break
+        if mistaken:
+            words = []
+        print("Line: %d; Words: " % (j), words)
