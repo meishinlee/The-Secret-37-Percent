@@ -3,6 +3,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box'
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const style = {
     position: 'absolute',
@@ -22,7 +23,7 @@ const FoodModal = () => {
         const handleClose = () => setOpen(false);
   return (
     <div>
-        <Button variant="contained" color="success" onClick={handleOpen}><h3><span role="img" aria-label="plant-pot">🪴</span></h3>Alternatives</Button>
+        <Button variant="contained" color="success" onClick={handleOpen}> < MenuBookIcon/> &nbsp;Alternatives </Button>
         <Modal
         open={open}
         onClose={handleClose}
