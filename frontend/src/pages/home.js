@@ -25,6 +25,9 @@ const Home = () => {
     const [units, setUnits] = React.useState('');
     const [myOptions, setMyOptions] = useState([]);
 
+
+    const [file, setfile] = useState(null)
+
     const dispatch = useDispatch();
 
     const handleOnClick = e => {
@@ -91,6 +94,35 @@ const Home = () => {
         display: 'none',
     });
 
+    // NEW CODE
+
+    const onFormSubmit = (e) => {
+        e.preventDefault()
+    
+        const formData = new FormData();
+        formData.append('photo', file)
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        }
+    
+        const url = "http://localhost:5000/user/upload"
+        axios.post(url, formData, config).then((response) => {
+          alert('Image Uploaded Succesfully')
+        }).catch((err) => {
+          console.log(err)
+        })
+
+
+        // TODO: Add list population code here   
+    }
+
+    const onInputChange = (e) => {
+        setfile(e.target.files[0])
+    }
+
+
     return (
         <div>
             <Box pt={0} ml={10} pl={3} pr={3} mr={10}>
@@ -130,14 +162,21 @@ const Home = () => {
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center" pt={3} pl={20}>
                     <h3>or... Upload a photo of your most recent receipt </h3>
-                    <label htmlFor="contained-button-file">
+                    <div className="App">
+                    <form onSubmit={onFormSubmit}>
+                        <h1>Simple File Upload</h1>
+                        <input type='file' name='photo' onChange={onInputChange} />
+                        <button type="submit">Upload</button>
+                    </form>
+                    </div>
+                    {/* <label htmlFor="contained-button-file">
                         <Input accept="image/*" id="contained-button-file" multiple type="file" />
                         <Button variant="contained" component="span">
                             Upload <IconButton sx={{ color: "white" }} aria-label="upload picture" component="span">
                                 <PhotoCamera />
                             </IconButton>
                         </Button>
-                    </label>
+                    </label> */}
                 </Stack>
             </Box>
             <Box mt={5} alignItems="center">

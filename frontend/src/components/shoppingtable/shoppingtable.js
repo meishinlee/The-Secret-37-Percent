@@ -78,7 +78,7 @@ export default function ShoppingListTable() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {<FoodModal />}
+                  {/* {<FoodModal />} */}
                 </TableCell>
                 <TableCell align="center">{item.name}</TableCell>
                 <TableCell align="center">{item.amountConsumed+ " " + item.units}</TableCell>

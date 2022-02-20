@@ -24,7 +24,7 @@ const FoodModal = (food, footprint) => {
         const handleClose = () => setOpen(false);
 
         var alternativesHM = [];
-        const jsonData= require('./../foodItemCarbonFootprint.json'); 
+        const jsonData= require('../../foodItemCarbonFootprint.json'); 
         for (let i = 0; i < jsonData.length; i++) {
           if (jsonData[i]['TYPOLOGY'] == jsonData[food]['TYPOLOGY']) {
             if (jsonData[i]['CARBON_FOOTPRINT_FOOD_ITEM'] < jsonData[food]['CARBON_FOOTPRINT_FOOD_ITEM']) {
@@ -45,11 +45,6 @@ const FoodModal = (food, footprint) => {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Here are some alternatives for: #INSERT INGREDIENT HERE
-            {
-              alternatives.map(alternative => {
-                <li>alternative</li>
-              })
-            }
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <ul>
