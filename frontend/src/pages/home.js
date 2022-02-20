@@ -1,19 +1,21 @@
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { styled } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
+import { setReduxItems } from '../reducers/itemsReducer';
 
 const Home = () => {
     var queryStr = 'juice';
@@ -29,12 +31,10 @@ const Home = () => {
     const [units, setUnits] = React.useState('');
     const [myOptions, setMyOptions] = useState([]);
 
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
+    const dispatch = useDispatch();
 
     const handleOnClick = e => {
         e.preventDefault();
-
     }
 
     const jsonData= require('./../foodItemCarbonFootprint.json'); 
@@ -62,25 +62,29 @@ const Home = () => {
             "amountConsumed": intAmountConsumed,
             "units": units,
             // "carbonFootprintValue": 3
-          });
-          
-          var config = {
+        });
+
+        var config = {
             method: 'post',
             url: 'http://localhost:5000/items',
-            headers: { 
-              'Content-Type': 'application/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
-            data : data
-          };
-          
-          axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+                    .then(res => {
+                        dispatch(setReduxItems(res.data.items));
+                    })
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     const Input = styled('input')({
