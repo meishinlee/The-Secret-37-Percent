@@ -19,6 +19,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { useDispatch, useSelector } from "react-redux";
 import React from 'react'
 import { logout } from './reducers/loginReducer';
@@ -82,7 +83,9 @@ function App() {
             </IconButton>
             <Box align="center" pl= {42}>
             <Typography>
-              <h2 pt = {20}>Let's Improve Planet Health Together <span role="img" aria-label="plant">🌿</span></h2>
+              <h2 style={{color: "white"}}
+ pt = {20}>Let's Improve Planet Health Together! <a href = "https://hansbdejong.github.io/graph/graph.html" target="_blank">(The Science)</a>
+ <span role="img" aria-label="plant">🌿</span></h2>
               {/* <img src={StonksLogo} width="40px" height="40px" /> */}
             </Typography>
             </Box>

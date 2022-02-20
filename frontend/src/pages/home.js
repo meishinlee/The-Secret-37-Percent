@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
 import Autocomplete from '@mui/material/Autocomplete';
 import { setReduxItems } from '../reducers/itemsReducer';
+// import { Link } from "react-router-dom";
+// import Link from "next/link"
+
 import { recognizeReceipt } from './cv'
 
 // const fs = require("fs");
@@ -266,7 +269,16 @@ const Home = () => {
                 <ShoppingListTable />
 
             </Box>
+            {/* C:\Users\miche\Documents\GitHub\TreeHacks2022\graphs\graph.html */}
+            {/* <a target="_blank" href="./../../graphs/graph.html">link text</a> */}
 
+
+ {/* <Link
+      to={{
+        pathname:
+            "https://hansbdejong.github.io/graph/graph.html",}}
+        target="_blank">
+ </Link> */}
         </div>
     )
 }
