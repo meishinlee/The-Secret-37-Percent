@@ -13,12 +13,21 @@ import ShoppingListTable from '../components/shoppingtable/shoppingtable';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const Home = () => {
+    var queryStr = 'juice';
+    var regex = new RegExp(queryStr);
+    console.log(regex.test('apple     juice'));
+    console.log(regex.test('applejuice'));
+    console.log(regex.test('applejice'));
+    console.log(regex.test('grape'));
+    console.log(regex.test('grape juice'));
     const [displayGreen, setDisplayGreen] = useState(false);
     const [name, setName] = React.useState('');
     const [amountConsumed, setAmountConsumed] = React.useState('');
     const [units, setUnits] = React.useState('');
+    const [myOptions, setMyOptions] = useState([]);
 
     const [dense, setDense] = React.useState(false);
     const [secondary, setSecondary] = React.useState(false);
@@ -28,10 +37,23 @@ const Home = () => {
 
     }
 
+    const jsonData= require('./../foodItemCarbonFootprint.json'); 
+    // console.log("dewrewr",jsonData);
+    var carbonData = []; 
+    for (let i = 0; i < jsonData.length; i++) {
+        // console.log("dewrewr",jsonData[i]);
+        carbonData.push(jsonData[i]['FOOD_ITEM']);
+    }
+
+    const defaultProps = {
+        options: carbonData,
+        getOptionLabel: (option) => option,
+    };
+    
     const handleChange = (event) => {
         setUnits(event.target.value);
     };
-
+    
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
         var data = JSON.stringify({
@@ -72,10 +94,21 @@ const Home = () => {
                 <h2 >Tracking our carbon footprint a step at a time <span role="img" aria-label="footprint">👣</span></h2>
 
                 <Stack direction="row" spacing={2} alignItems="center" pt={3}>
-                    <TextField onChange={e => { setName(e.target.value) }} fullWidth id="food" label="Enter a food" variant="outlined" />
-                    <TextField onChange={e => { setAmountConsumed(e.target.value) }} fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />
+                    <Autocomplete
+                        required
+                        style={{ minWidth: 300 }}
+                        {...defaultProps}
+                        id="auto-complete"
+                        autoComplete
+                        includeInputInList
+                        renderInput={(params) => (
+                        <TextField {...params} onClick={e => { setName(e.target.value) }} label="Enter a food" variant="standard" />
+                        )}
+                    />
+                    {/* <TextField onChange={e => { setName(e.target.value) }} fullWidth id="food" label="Enter a food" variant="outlined" /> */}
+                    <TextField required onChange={e => { setAmountConsumed(e.target.value) }} fullWidth id="amount-food" label="Amount of Food Consumed" variant="outlined" />
                     <FormControl fullwidth variant="standard" style={{ minWidth: 120 }}>
-                        <InputLabel fullwidth id="select-units">Units</InputLabel>
+                        <InputLabel required fullwidth id="select-units">Units</InputLabel>
                         <Select fullwidth labelId="select-units"
                             id="select-units"
                             value={units}
@@ -90,7 +123,7 @@ const Home = () => {
                         <Button variant="contained" color="success" onClick={addToDb} onMouseLeave={() => setDisplayGreen(true)}>Add!</Button>}
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center" pt={3} pl = {20}>
-                <h3>Or... Upload a photo of your most recent receipt </h3>
+                <h3>or... Upload a photo of your most recent receipt </h3>
                 <label htmlFor="contained-button-file">
                     <Input accept="image/*" id="contained-button-file" multiple type="file" />
                     <Button variant="contained" component="span">
