@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
 import Autocomplete from '@mui/material/Autocomplete';
 import { setReduxItems } from '../reducers/itemsReducer';
+import { recognizeReceipt } from './cv'
+
+// const fs = require("fs");
 
 const Home = () => {
 
@@ -114,8 +117,23 @@ const Home = () => {
           console.log(err)
         })
 
+        
+        // // TODO: Add list population code here   
+        // var files = fs.readdirSync('http://localhost:5000/public');
+        // console.log(files)
 
-        // TODO: Add list population code here   
+        let returnedValues = recognizeReceipt()
+
+        let valueDate = returnedValues[0]
+        let names = returnedValues[1]
+        let quantities = returnedValues[2]
+        let prices = returnedValues[3]
+        let nameBoundingBoxes = returnedValues[4]
+        let quantityBoundingBoxes = returnedValues[5]
+        let priceBoundingBoxes = returnedValues[6]
+
+        console.log(valueDate, names, quantities, prices, nameBoundingBoxes, quantityBoundingBoxes, priceBoundingBoxes)
+
     }
 
     const onInputChange = (e) => {
@@ -164,7 +182,7 @@ const Home = () => {
                     <h3>or... Upload a photo of your most recent receipt </h3>
                     <div className="App">
                     <form onSubmit={onFormSubmit}>
-                        <h1>Simple File Upload</h1>
+                        {/* <h1>Simple File Upload</h1> */}
                         <input type='file' name='photo' onChange={onInputChange} />
                         <button type="submit">Upload</button>
                     </form>
