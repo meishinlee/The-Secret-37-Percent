@@ -62,7 +62,9 @@ const Home = () => {
     function duplicateAddToDb(name, amountConsumed, units){
         let intAmountConsumed = parseInt(amountConsumed);
         // console.log("dewrewr",carbonDataHM);
-        let carbonFootprint = carbonDataHM[name] * amountConsumed / 1000; 
+        let carbonFootprint = carbonDataHM[name] * parseInt(amountConsumed) / 1000; 
+
+        console.log('name', carbonFootprint, name, amountConsumed, carbonDataHM[name], carbonDataHM);
         // console.log("dewrewr",carbonFootprint);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
@@ -97,7 +99,9 @@ const Home = () => {
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
         // console.log("dewrewr",carbonDataHM);
-        let carbonFootprint = carbonDataHM[name] * amountConsumed / 1000; 
+
+        let carbonFootprint = carbonDataHM[name] * parseInt(amountConsumed) / 1000; 
+        console.log('namessss', name, carbonFootprint, amountConsumed)
         // console.log("dewrewr",carbonFootprint);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
@@ -167,24 +171,25 @@ const Home = () => {
 
             console.log(names, nameBoundingBoxes)    
             
-            let correctNames = []
-            let correctFootprints = []
+            // let correctNames = []
+            // let correctFootprints = []
 
-            for(let i=0; i<names.length; i++){
-                let nameArray = names[i].split(" ")
-                console.log("Namearray: ", nameArray)
-                for(let j=0; j<nameArray.length;j++){
-                    if(carbonData.indexOf(nameArray[j].toUpperCase()) != 1){
-                        console.log("Found: ", nameArray[j].toUpperCase())
-                        correctNames.push(nameArray[j].toUpperCase())
-                        correctFootprints.push(carbonDataHM[nameArray[j].toUpperCase()])
-                        break
-                    }
-                }
-            }
+            // for(let i=0; i<names.length; i++){
+            //     let nameArray = names[i].split(" ")
+            //     console.log("Namearray: ", nameArray)
+            //     for(let j=0; j<nameArray.length;j++){
+            //         if(carbonData.indexOf(nameArray[j].toUpperCase()) != 1){
+            //             console.log("Found: ", nameArray[j].toUpperCase())
+            //             correctNames.push(nameArray[j].toUpperCase())
+            //             correctFootprints.push(carbonDataHM[nameArray[j].toUpperCase()])
+            //             break
+            //         }
+            //     }
+            // }
+            let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
 
-            console.log(correctNames)
-            console.log(correctFootprints)
+            // console.log(correctNames)
+            // console.log(correctFootprints)
 
             for (let i=0; i<correctNames.length;i++){
                 duplicateAddToDb(correctNames[i], 1, "kg")

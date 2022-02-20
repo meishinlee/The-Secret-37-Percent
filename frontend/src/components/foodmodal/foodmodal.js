@@ -19,7 +19,6 @@ const style = {
 };
 
 const FoodModal = (props) => {
-  console.log('item', props.food)
   // console.log('food alt', props.alts)
   const [alternatives, setAlternatives] = React.useState([]);
   const [open, setOpen] = React.useState(false);
@@ -29,7 +28,6 @@ const FoodModal = (props) => {
   useEffect(() => {
     let alternativesHM = getAlternatives(props.food);
     setAlternatives(alternativesHM);
-    console.log('alternatives HM and state', alternativesHM, alternatives);
   }, [])
 
 
