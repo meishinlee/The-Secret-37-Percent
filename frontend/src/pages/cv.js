@@ -24,8 +24,14 @@ export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true
   //     console.log(`status: ${state.status}`);
   //   }
   // });
+    // https://raw.githubusercontent.com/Azure/azure-sdk-for-python/master/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png
 
-  let receiptUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg"
+  // let receiptUrl = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/master/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
+  // let receiptUrl = "http://localhost:5000/public/image.png"
+  let receiptUrl = "https://raw.githubusercontent.com/ashok-arjun/youtube/master/images/test3.jpg"
+
+  // let receiptUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg"
+  
   let poller = await client.beginRecognizeReceiptsFromUrl(receiptUrl, {
         onProgress: (state) => { console.log(`status: ${state.status}`); }
   });  
@@ -45,14 +51,10 @@ export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true
   let valueDate = date['value'] 
 
   let items = fields['Items']['value']
+  console.log(items)
 
   let nameBoundingBoxes = []
-  let quantityBoundingBoxes = []
-  let priceBoundingBoxes = []
-
   let names = []
-  let quantities = []
-  let prices = []
 
   for(let i=0; i< items.length; i++){
       let item = items[i]['value']
@@ -60,22 +62,8 @@ export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true
       let name = item['Name']
       let nameText = name['value']
       let nameBoundingBox = name['valueData']['boundingBox']
-
-      let quantity = item['Quantity']
-      let quantityText = quantity['value']
-      let quantityBoundingBox = quantity['valueData']['boundingBox']
-
-      let totalPrice = item['TotalPrice']
-      let totalPriceText = totalPrice['value']
-      let totalPriceBoundingBox = totalPrice['valueData']['boundingBox']
-
       names.push(nameText)
-      quantities.push(quantityText)
-      prices.push(totalPriceText)
-
       nameBoundingBoxes.push(nameBoundingBox)
-      quantityBoundingBoxes.push(quantityBoundingBox)
-      priceBoundingBoxes.push(totalPriceBoundingBox)
   }
 
 
@@ -85,10 +73,10 @@ export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true
   console.log("Items:")
 
   for(let i=0;i<names.length;i++){
-      console.log(names[i], quantities[i], prices[i])
+      console.log(names[i])
   }
 
-  return [valueDate, names, quantities, prices, nameBoundingBoxes, quantityBoundingBoxes, priceBoundingBoxes]
+  return [names, nameBoundingBoxes]
 }
 
 recognizeReceipt().catch((err) => {

@@ -41,6 +41,7 @@ const Home = () => {
     // console.log("dewrewr",jsonData);
     var carbonDataHM = {};
     var carbonData = []; 
+
     for (let i = 0; i < jsonData.length; i++) {
         // console.log("dewrewr",jsonData[i]);
         carbonData.push(jsonData[i]['FOOD_ITEM']); 
@@ -56,6 +57,42 @@ const Home = () => {
     const handleChange = (event) => {
         setUnits(event.target.value);
     };
+
+
+    function duplicateAddToDb(name, amountConsumed, units){
+        let intAmountConsumed = parseInt(amountConsumed);
+        // console.log("dewrewr",carbonDataHM);
+        let carbonFootprint = carbonDataHM[name] * amountConsumed / 1000; 
+        // console.log("dewrewr",carbonFootprint);
+        var data = JSON.stringify({
+            "email": "testuser@gmail.com",
+            "name": name,
+            "amountConsumed": intAmountConsumed,
+            "units": units,
+            "carbonFootprintValue": carbonFootprint
+        });
+
+        var config = {
+            method: 'post',
+            url: 'http://localhost:5000/items',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+                    .then(res => {
+                        dispatch(setReduxItems(res.data.items));
+                    })
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
@@ -117,22 +154,42 @@ const Home = () => {
           console.log(err)
         })
 
-        
         // // TODO: Add list population code here   
         // var files = fs.readdirSync('http://localhost:5000/public');
         // console.log(files)
 
         let returnedValues = recognizeReceipt()
 
-        let valueDate = returnedValues[0]
-        let names = returnedValues[1]
-        let quantities = returnedValues[2]
-        let prices = returnedValues[3]
-        let nameBoundingBoxes = returnedValues[4]
-        let quantityBoundingBoxes = returnedValues[5]
-        let priceBoundingBoxes = returnedValues[6]
+        recognizeReceipt().then(returnedValues => { 
+            console.log("Returned Values:", returnedValues); 
+            let names = returnedValues[0]
+            let nameBoundingBoxes = returnedValues[1]
 
-        console.log(valueDate, names, quantities, prices, nameBoundingBoxes, quantityBoundingBoxes, priceBoundingBoxes)
+            console.log(names, nameBoundingBoxes)    
+            
+            let correctNames = []
+            let correctFootprints = []
+
+            for(let i=0; i<names.length; i++){
+                let nameArray = names[i].split(" ")
+                console.log("Namearray: ", nameArray)
+                for(let j=0; j<nameArray.length;j++){
+                    if(carbonData.indexOf(nameArray[j].toUpperCase()) != 1){
+                        console.log("Found: ", nameArray[j].toUpperCase())
+                        correctNames.push(nameArray[j].toUpperCase())
+                        correctFootprints.push(carbonDataHM[nameArray[j].toUpperCase()])
+                        break
+                    }
+                }
+            }
+
+            console.log(correctNames)
+            console.log(correctFootprints)
+
+            for (let i=0; i<correctNames.length;i++){
+                duplicateAddToDb(correctNames[i], 1, "kg")
+            }
+        });
 
     }
 
