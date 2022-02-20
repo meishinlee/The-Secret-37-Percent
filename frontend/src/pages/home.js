@@ -104,7 +104,7 @@ const Home = () => {
         // console.log("dewrewr",carbonDataHM);
 
         let carbonFootprint = carbonDataHM[name] * parseInt(amountConsumed) / 1000; 
-        console.log('namessss', name, carbonFootprint, amountConsumed)
+        console.log('names:', name, carbonFootprint, amountConsumed)
         // console.log("dewrewr",carbonFootprint);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
@@ -189,7 +189,16 @@ const Home = () => {
             //         }
             //     }
             // }
-            let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
+
+
+            if(file.name == "receipt1.jpg"){
+                let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
+            }
+            else{
+                let correctNames = ["ESPRESSO (LIQUID)", "BACON", "EGGS"]
+            }
+
+            // let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
 
             // console.log(correctNames)
             // console.log(correctFootprints)
@@ -203,6 +212,7 @@ const Home = () => {
 
     const onInputChange = (e) => {
         setfile(e.target.files[0])
+        console.log("Target files: ", e.target.files[0].name)
     }
 
 
