@@ -67,7 +67,7 @@ export default function ShoppingListTable() {
               <TableCell>Find Alternative</TableCell>
               <TableCell align="center">Item</TableCell>
               <TableCell align="center">Amount Consumed</TableCell>
-              <TableCell align="center">Carbon Footprint</TableCell>
+              <TableCell align="center">Carbon Footprint (CO2/kg)</TableCell>
               <TableCell align="center">Delete</TableCell>
             </TableRow>
           </TableHead>
