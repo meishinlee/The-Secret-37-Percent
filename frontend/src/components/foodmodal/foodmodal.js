@@ -74,7 +74,7 @@ const FoodModal = (props) => {
             <ul>
               {
                 alternatives.length > 0 ? alternatives.map(alt => {
-                  return <li>{alt.FOOD_ITEM}: Carbon footprint of {alt.CARBON_FOOTPRINT_FOOD_ITEM}</li>
+                  return <li>{alt.FOOD_ITEM}: Carbon footprint of {alt.CARBON_FOOTPRINT_FOOD_ITEM} grams</li>
                 }) : <li>No better alternatives found</li>
               }
             </ul>

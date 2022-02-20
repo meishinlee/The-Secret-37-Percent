@@ -79,6 +79,6 @@ export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true
   return [names, nameBoundingBoxes]
 }
 
-recognizeReceipt().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+// recognizeReceipt().catch((err) => {
+//   console.error("The sample encountered an error:", err);
+// });

@@ -84,7 +84,7 @@ function App() {
             <Box align="center" pl= {42}>
             <Typography>
               <h2 style={{color: "white"}}
- pt = {20}>Let's Improve Planet Health Together! <a href = "https://hansbdejong.github.io/graph/graph.html" target="_blank">(The Science)</a>
+ pt = {20}>Let's Improve Planet Health Together! <a href = "https://hansbdejong.github.io/graph/graph.html" target="_blank" style={{color: '#9cd4db'}}>(The Science)</a>
  <span role="img" aria-label="plant">🌿</span></h2>
               {/* <img src={StonksLogo} width="40px" height="40px" /> */}
             </Typography>
