@@ -18,13 +18,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { setReduxItems } from '../reducers/itemsReducer';
 
 const Home = () => {
-    var queryStr = 'juice';
-    var regex = new RegExp(queryStr);
-    console.log(regex.test('apple     juice'));
-    console.log(regex.test('applejuice'));
-    console.log(regex.test('applejice'));
-    console.log(regex.test('grape'));
-    console.log(regex.test('grape juice'));
+
     const [displayGreen, setDisplayGreen] = useState(false);
     const [name, setName] = React.useState('');
     const [amountConsumed, setAmountConsumed] = React.useState('');
@@ -39,10 +33,11 @@ const Home = () => {
 
     const jsonData= require('./../foodItemCarbonFootprint.json'); 
     // console.log("dewrewr",jsonData);
-    var carbonData = []; 
+    var carbonData = {}; 
     for (let i = 0; i < jsonData.length; i++) {
         // console.log("dewrewr",jsonData[i]);
-        carbonData.push(jsonData[i]['FOOD_ITEM']);
+        carbonData['FOOD_ITEM'] = jsonData[i]['CARBON_FOOTPRINT'];
+        // .push((jsonData[i]['FOOD_ITEM'], jsonData[i]['CARBON_FOOTPRINT']));
     }
 
     const defaultProps = {
