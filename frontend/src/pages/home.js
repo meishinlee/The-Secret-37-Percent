@@ -105,8 +105,10 @@ const Home = () => {
                         id="auto-complete"
                         autoComplete
                         includeInputInList
+                        onClick={(e, value) => { setName(value) }}
+                        onInputChange={(e, newInputValue) => { setName(newInputValue) }}
                         renderInput={(params) => (
-                        <TextField {...params} onClick={e => { setName(e.target.value) }} label="Enter a food" variant="standard" />
+                        <TextField {...params}  label="Enter a food" variant="standard" />
                         )}
                     />
                     {/* <TextField onChange={e => { setName(e.target.value) }} fullWidth id="food" label="Enter a food" variant="outlined" /> */}
