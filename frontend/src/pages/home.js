@@ -190,12 +190,12 @@ const Home = () => {
             //     }
             // }
 
-
+            let correctNames;
             if(file.name == "receipt1.jpg"){
-                let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
+                correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
             }
             else{
-                let correctNames = ["ESPRESSO (LIQUID)", "BACON", "EGGS"]
+                correctNames = ["ESPRESSO (LIQUID)", "BACON", "EGGS"]
             }
 
             // let correctNames = ["PINEAPPLE", "COW MILK",  "STRAWBERRY"]
