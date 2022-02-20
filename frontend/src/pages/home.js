@@ -31,9 +31,9 @@ const Home = () => {
         e.preventDefault();
     }
 
-    const jsonData= require('./../foodItemCarbonFootprint.json'); 
+    const jsonData = require('./../foodItemCarbonFootprint.json');
     // console.log("dewrewr",jsonData);
-    var carbonData = {}; 
+    var carbonData = {};
     for (let i = 0; i < jsonData.length; i++) {
         // console.log("dewrewr",jsonData[i]);
         carbonData['FOOD_ITEM'] = jsonData[i]['CARBON_FOOTPRINT'];
@@ -44,11 +44,11 @@ const Home = () => {
         options: carbonData,
         getOptionLabel: (option) => option,
     };
-    
+
     const handleChange = (event) => {
         setUnits(event.target.value);
     };
-    
+
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
         var data = JSON.stringify({
@@ -84,7 +84,7 @@ const Home = () => {
 
     const Input = styled('input')({
         display: 'none',
-      });
+    });
 
     return (
         <div>
@@ -103,7 +103,7 @@ const Home = () => {
                         onClick={(e, value) => { setName(value) }}
                         onInputChange={(e, newInputValue) => { setName(newInputValue) }}
                         renderInput={(params) => (
-                        <TextField {...params}  label="Enter a food" variant="standard" />
+                            <TextField {...params} label="Enter a food" variant="standard" />
                         )}
                     />
                     {/* <TextField onChange={e => { setName(e.target.value) }} fullWidth id="food" label="Enter a food" variant="outlined" /> */}
@@ -123,16 +123,16 @@ const Home = () => {
                         <Button variant="contained" color="primary" onMouseEnter={() => setDisplayGreen(false)}>Add!</Button> :
                         <Button variant="contained" color="success" onClick={addToDb} onMouseLeave={() => setDisplayGreen(true)}>Add!</Button>}
                 </Stack>
-                <Stack direction="row" spacing={2} alignItems="center" pt={3} pl = {20}>
-                <h3>or... Upload a photo of your most recent receipt </h3>
-                <label htmlFor="contained-button-file">
-                    <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button variant="contained" component="span">
-                    Upload <IconButton sx={{ color: "white" }} aria-label="upload picture" component="span">
-                            <PhotoCamera />
+                <Stack direction="row" spacing={2} alignItems="center" pt={3} pl={20}>
+                    <h3>or... Upload a photo of your most recent receipt </h3>
+                    <label htmlFor="contained-button-file">
+                        <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                        <Button variant="contained" component="span">
+                            Upload <IconButton sx={{ color: "white" }} aria-label="upload picture" component="span">
+                                <PhotoCamera />
                             </IconButton>
-                    </Button>
-                </label>
+                        </Button>
+                    </label>
                 </Stack>
             </Box>
             <Box mt={5} alignItems="center">
