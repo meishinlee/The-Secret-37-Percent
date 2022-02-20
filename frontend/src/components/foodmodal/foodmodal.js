@@ -17,10 +17,22 @@ const style = {
     p: 4,
 };
 
-const FoodModal = () => {
+const FoodModal = (food, footprint) => {
+        const [alternatives, setAlternatives] = React.useState([]);
         const [open, setOpen] = React.useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
+
+        var alternativesHM = [];
+        const jsonData= require('./../foodItemCarbonFootprint.json'); 
+        for (let i = 0; i < jsonData.length; i++) {
+          if (jsonData[i]['TYPOLOGY'] == jsonData[food]['TYPOLOGY']) {
+            if (jsonData[i]['CARBON_FOOTPRINT_FOOD_ITEM'] < jsonData[food]['CARBON_FOOTPRINT_FOOD_ITEM']) {
+              alternativesHM.push(jsonData[i]['FOOD_ITEM']);
+            }
+          }
+        }
+
   return (
     <div>
         <Button variant="contained" color="success" onClick={handleOpen}> < MenuBookIcon/> &nbsp;Alternatives </Button>
@@ -33,6 +45,11 @@ const FoodModal = () => {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Here are some alternatives for: #INSERT INGREDIENT HERE
+            {
+              alternatives.map(alternative => {
+                <li>alternative</li>
+              })
+            }
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <ul>
