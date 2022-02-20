@@ -39,4 +39,9 @@ app.get("/", (req, res) => {
 app.use('/users', users)
 app.use('/items', items)
 
+
+// NEW CODE FOR IMAGE UPLOAD
+const userUpload = require('./routes/index')
+app.use('/user', userUpload)
+
 app.listen(port, () => console.log("listening at port", port))

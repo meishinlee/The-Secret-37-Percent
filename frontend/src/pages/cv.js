@@ -1,63 +1,84 @@
-const { FormRecognizerClient, FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+// Sample images
 
-const apiKey = "deed38caa3bc46dbbbbbde0703b4847d";
-const endpoint = "https://treehacks-sustainability.cognitiveservices.azure.com/";
-
-const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-
-async function recognizeReceipt(receiptUrl) {
     // https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg
     // https://raw.githubusercontent.com/Azure/azure-sdk-for-python/master/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png
 
-    //receiptUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
+//
 
-    receiptUrl = 'https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5'
-    // const poller = await client.beginRecognizeReceipts()
-    
-    const poller = await client.beginRecognizeReceipts(receiptUrl, {
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
+// import fs from 'fs';
+
+// const cv = require("opencv4nodejs");
+
+export async function recognizeReceipt(path="./contoso-allinone.jpg", debug=true) {
+  
+  const endpoint = "https://treehacks-sustainability.cognitiveservices.azure.com/";
+  const apiKey = "deed38caa3bc46dbbbbbde0703b4847d";
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+
+  // const readStream = fs.createReadStream(path);
+
+  // const poller = await client.beginRecognizeReceipts(readStream, {
+  //   onProgress: (state) => {
+  //     console.log(`status: ${state.status}`);
+  //   }
+  // });
+    // https://raw.githubusercontent.com/Azure/azure-sdk-for-python/master/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png
+
+  // let receiptUrl = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/master/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
+  // let receiptUrl = "http://localhost:5000/public/image.png"
+  let receiptUrl = "https://raw.githubusercontent.com/ashok-arjun/youtube/master/images/test3.jpg"
+
+  // let receiptUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg"
+  
+  let poller = await client.beginRecognizeReceiptsFromUrl(receiptUrl, {
         onProgress: (state) => { console.log(`status: ${state.status}`); }
-    });
-    // const poller = await client.beginRecognizeReceiptsFromUrl(receiptUrl, {
-    //     onProgress: (state) => { console.log(`status: ${state.status}`); }
-    // });
+  });  
 
-    const receipts = await poller.pollUntilDone();
+  const receipts = await poller.pollUntilDone();
 
-    if (!receipts || receipts.length <= 0) {
-        throw new Error("Expecting at lease one receipt in analysis result");
-    }
+  if (!receipts || receipts.length <= 0) {
+    throw new Error("Expecting at lease one receipt in analysis result");
+  }
 
-    const receipt = receipts[0];
-    console.log("First receipt:");
-    const receiptTypeField = receipt.fields["ReceiptType"];
-    if (receiptTypeField.valueType === "string") {
-        console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
-    }
-    const merchantNameField = receipt.fields["MerchantName"];
-    if (merchantNameField.valueType === "string") {
-        console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
-    }
-    const transactionDate = receipt.fields["TransactionDate"];
-    if (transactionDate.valueType === "date") {
-        console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
-    }
-    const itemsField = receipt.fields["Items"];
-    if (itemsField.valueType === "array") {
-        for (const itemField of itemsField.value || []) {
-            if (itemField.valueType === "object") {
-                const itemNameField = itemField.value["Name"];
-                if (itemNameField.valueType === "string") {
-                    console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
-                }
-            }
-        }
-    }
-    const totalField = receipt.fields["Total"];
-    if (totalField.valueType === "number") {
-        console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
-    }
+  let receipt = receipts[0];
+  let json_receipt = JSON.parse(JSON.stringify(receipt))
+
+  let fields = json_receipt['fields']
+
+  let date = fields['TransactionDate']
+  let valueDate = date['value'] 
+
+  let items = fields['Items']['value']
+  console.log(items)
+
+  let nameBoundingBoxes = []
+  let names = []
+
+  for(let i=0; i< items.length; i++){
+      let item = items[i]['value']
+
+      let name = item['Name']
+      let nameText = name['value']
+      let nameBoundingBox = name['valueData']['boundingBox']
+      names.push(nameText)
+      nameBoundingBoxes.push(nameBoundingBox)
+  }
+
+
+  // TODO: Display uploaded receipt image, and image with bounding boxes to show the user
+
+  console.log("Date: ", valueDate)
+  console.log("Items:")
+
+  for(let i=0;i<names.length;i++){
+      console.log(names[i])
+  }
+
+  return [names, nameBoundingBoxes]
 }
 
 recognizeReceipt().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });

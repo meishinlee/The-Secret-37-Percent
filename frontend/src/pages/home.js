@@ -19,6 +19,9 @@ import { setReduxItems } from '../reducers/itemsReducer';
 // import { Link } from "react-router-dom";
 // import Link from "next/link"
 
+import { recognizeReceipt } from './cv'
+
+// const fs = require("fs");
 
 const Home = () => {
 
@@ -27,6 +30,9 @@ const Home = () => {
     const [amountConsumed, setAmountConsumed] = React.useState('');
     const [units, setUnits] = React.useState('');
     const [myOptions, setMyOptions] = useState([]);
+
+
+    const [file, setfile] = useState(null)
 
     const dispatch = useDispatch();
 
@@ -38,6 +44,7 @@ const Home = () => {
     // console.log("dewrewr",jsonData);
     var carbonDataHM = {};
     var carbonData = []; 
+
     for (let i = 0; i < jsonData.length; i++) {
         // console.log("dewrewr",jsonData[i]);
         carbonData.push(jsonData[i]['FOOD_ITEM']); 
@@ -53,6 +60,42 @@ const Home = () => {
     const handleChange = (event) => {
         setUnits(event.target.value);
     };
+
+
+    function duplicateAddToDb(name, amountConsumed, units){
+        let intAmountConsumed = parseInt(amountConsumed);
+        // console.log("dewrewr",carbonDataHM);
+        let carbonFootprint = carbonDataHM[name] * amountConsumed / 1000; 
+        // console.log("dewrewr",carbonFootprint);
+        var data = JSON.stringify({
+            "email": "testuser@gmail.com",
+            "name": name,
+            "amountConsumed": intAmountConsumed,
+            "units": units,
+            "carbonFootprintValue": carbonFootprint
+        });
+
+        var config = {
+            method: 'post',
+            url: 'http://localhost:5000/items',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+                    .then(res => {
+                        dispatch(setReduxItems(res.data.items));
+                    })
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
@@ -94,6 +137,70 @@ const Home = () => {
         display: 'none',
     });
 
+    // NEW CODE
+
+    const onFormSubmit = (e) => {
+        e.preventDefault()
+    
+        const formData = new FormData();
+        formData.append('photo', file)
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        }
+    
+        const url = "http://localhost:5000/user/upload"
+        axios.post(url, formData, config).then((response) => {
+          alert('Image Uploaded Succesfully')
+        }).catch((err) => {
+          console.log(err)
+        })
+
+        // // TODO: Add list population code here   
+        // var files = fs.readdirSync('http://localhost:5000/public');
+        // console.log(files)
+
+        let returnedValues = recognizeReceipt()
+
+        recognizeReceipt().then(returnedValues => { 
+            console.log("Returned Values:", returnedValues); 
+            let names = returnedValues[0]
+            let nameBoundingBoxes = returnedValues[1]
+
+            console.log(names, nameBoundingBoxes)    
+            
+            let correctNames = []
+            let correctFootprints = []
+
+            for(let i=0; i<names.length; i++){
+                let nameArray = names[i].split(" ")
+                console.log("Namearray: ", nameArray)
+                for(let j=0; j<nameArray.length;j++){
+                    if(carbonData.indexOf(nameArray[j].toUpperCase()) != 1){
+                        console.log("Found: ", nameArray[j].toUpperCase())
+                        correctNames.push(nameArray[j].toUpperCase())
+                        correctFootprints.push(carbonDataHM[nameArray[j].toUpperCase()])
+                        break
+                    }
+                }
+            }
+
+            console.log(correctNames)
+            console.log(correctFootprints)
+
+            for (let i=0; i<correctNames.length;i++){
+                duplicateAddToDb(correctNames[i], 1, "kg")
+            }
+        });
+
+    }
+
+    const onInputChange = (e) => {
+        setfile(e.target.files[0])
+    }
+
+
     return (
         <div>
             <Box pt={0} ml={10} pl={3} pr={3} mr={10}>
@@ -133,14 +240,21 @@ const Home = () => {
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center" pt={3} pl={20}>
                     <h3>or... Upload a photo of your most recent receipt </h3>
-                    <label htmlFor="contained-button-file">
+                    <div className="App">
+                    <form onSubmit={onFormSubmit}>
+                        {/* <h1>Simple File Upload</h1> */}
+                        <input type='file' name='photo' onChange={onInputChange} />
+                        <button type="submit">Upload</button>
+                    </form>
+                    </div>
+                    {/* <label htmlFor="contained-button-file">
                         <Input accept="image/*" id="contained-button-file" multiple type="file" />
                         <Button variant="contained" component="span">
                             Upload <IconButton sx={{ color: "white" }} aria-label="upload picture" component="span">
                                 <PhotoCamera />
                             </IconButton>
                         </Button>
-                    </label>
+                    </label> */}
                 </Stack>
             </Box>
             <Box mt={5} alignItems="center">
