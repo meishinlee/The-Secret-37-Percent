@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useState } from 'react';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { styled } from '@mui/material/styles';
 
 const Home = () => {
     const [displayGreen, setDisplayGreen] = useState(false);
@@ -58,6 +61,10 @@ const Home = () => {
           
     }
 
+    const Input = styled('input')({
+        display: 'none',
+      });
+
     return (
         <div>
             <Box pt={0} ml={10} pl={3} pr={3} mr={10}>
@@ -81,6 +88,17 @@ const Home = () => {
                     {displayGreen ?
                         <Button variant="contained" color="primary" onMouseEnter={() => setDisplayGreen(false)}>Add!</Button> :
                         <Button variant="contained" color="success" onClick={addToDb} onMouseLeave={() => setDisplayGreen(true)}>Add!</Button>}
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center" pt={3} pl = {20}>
+                <h3>Or... Upload a photo of your most recent receipt </h3>
+                <label htmlFor="contained-button-file">
+                    <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button variant="contained" component="span">
+                    Upload <IconButton sx={{ color: "white" }} aria-label="upload picture" component="span">
+                            <PhotoCamera />
+                            </IconButton>
+                    </Button>
+                </label>
                 </Stack>
             </Box>
             <Box mt={5} alignItems="center">
