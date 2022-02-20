@@ -23,7 +23,7 @@ const FoodModal = (food, footprint) => {
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
 
-        var alternativesHM = {};
+        var alternativesHM = [];
         const jsonData= require('./../foodItemCarbonFootprint.json'); 
         for (let i = 0; i < jsonData.length; i++) {
           if (jsonData[i]['TYPOLOGY'] == jsonData[food]['TYPOLOGY']) {
