@@ -9,7 +9,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import ShoppingListTable from '../components/shoppingtable/shoppingtable';
+import { appendReduxItems } from '../reducers/itemsReducer';
+import { setReduxItems } from '../reducers/itemsReducer';
 
 const Home = () => {
     const [displayGreen, setDisplayGreen] = useState(false);
@@ -17,12 +20,10 @@ const Home = () => {
     const [amountConsumed, setAmountConsumed] = React.useState('');
     const [units, setUnits] = React.useState('');
 
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
+    const dispatch = useDispatch();
 
     const handleOnClick = e => {
         e.preventDefault();
-
     }
 
     const handleChange = (event) => {
@@ -37,25 +38,29 @@ const Home = () => {
             "amountConsumed": intAmountConsumed,
             "units": units,
             // "carbonFootprintValue": 3
-          });
-          
-          var config = {
+        });
+
+        var config = {
             method: 'post',
             url: 'http://localhost:5000/items',
-            headers: { 
-              'Content-Type': 'application/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
-            data : data
-          };
-          
-          axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+                    .then(res => {
+                        dispatch(setReduxItems(res.data.items));
+                    })
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     return (

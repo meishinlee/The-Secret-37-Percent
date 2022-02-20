@@ -13,14 +13,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import FoodModal from '../foodmodal/foodmodal';
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { setReduxItems } from '../../reducers/itemsReducer';
 
 export default function ShoppingListTable() {
   const [items, setItems] = React.useState([]);
-
+  const dispatch = useDispatch();
+  const reduxItems = useSelector(state => state.items.items);
+  
   useEffect(() => {
     axios.get('http://localhost:5000/items?email=testuser@gmail.com')
       .then(res => {
         setItems(res.data.items);
+        dispatch(setReduxItems(res.data.items));
       })
   }, [])
   
@@ -45,7 +50,11 @@ export default function ShoppingListTable() {
 
 
     axios.delete(`http://localhost:5000/items/${id}`).then(res => {
-      console.log(res.data)
+      axios.get('http://localhost:5000/items?email=testuser@gmail.com')
+      .then(res => {
+        setItems(res.data.items);
+        dispatch(setReduxItems(res.data.items));
+      })
     })
   }
 
@@ -63,7 +72,7 @@ export default function ShoppingListTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items && items.map((item) => (
+            {reduxItems && reduxItems.map((item) => (
               <TableRow
                 key={item._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
