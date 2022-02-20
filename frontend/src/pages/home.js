@@ -56,7 +56,7 @@ const Home = () => {
             "name": name,
             "amountConsumed": intAmountConsumed,
             "units": units,
-            // "carbonFootprintValue": 3
+            "carbonFootprintValue": carbonData[name]
         });
 
         var config = {
