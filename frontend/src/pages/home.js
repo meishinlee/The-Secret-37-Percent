@@ -33,10 +33,12 @@ const Home = () => {
 
     const jsonData= require('./../foodItemCarbonFootprint.json'); 
     // console.log("dewrewr",jsonData);
-    var carbonData = {}; 
+    var carbonDataHM = {};
+    var carbonData = []; 
     for (let i = 0; i < jsonData.length; i++) {
         // console.log("dewrewr",jsonData[i]);
-        carbonData['FOOD_ITEM'] = jsonData[i]['CARBON_FOOTPRINT'];
+        carbonData.push(jsonData[i]['FOOD_ITEM']); 
+        carbonDataHM[jsonData[i]['FOOD_ITEM']] = jsonData[i]['CARBON_FOOTPRINT_FOOD_ITEM'];
         // .push((jsonData[i]['FOOD_ITEM'], jsonData[i]['CARBON_FOOTPRINT']));
     }
 
@@ -51,12 +53,15 @@ const Home = () => {
     
     const addToDb = (e) => {
         let intAmountConsumed = parseInt(amountConsumed);
+        // console.log("dewrewr",carbonDataHM);
+        let carbonFootprint = carbonDataHM[name] * amountConsumed / 1000; 
+        // console.log("dewrewr",carbonFootprint);
         var data = JSON.stringify({
             "email": "testuser@gmail.com",
             "name": name,
             "amountConsumed": intAmountConsumed,
             "units": units,
-            "carbonFootprintValue": carbonData[name]
+            "carbonFootprintValue": carbonFootprint
         });
 
         var config = {
