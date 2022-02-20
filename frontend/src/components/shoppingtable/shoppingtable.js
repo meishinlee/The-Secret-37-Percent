@@ -15,12 +15,13 @@ import FoodModal from '../foodmodal/foodmodal';
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { setReduxItems } from '../../reducers/itemsReducer';
+import { getAlternatives } from '../foodmodal/foodfunction';
 
 export default function ShoppingListTable() {
   const [items, setItems] = React.useState([]);
   const dispatch = useDispatch();
   const reduxItems = useSelector(state => state.items.items);
-  
+
   useEffect(() => {
     axios.get('http://localhost:5000/items?email=testuser@gmail.com')
       .then(res => {
@@ -28,33 +29,33 @@ export default function ShoppingListTable() {
         dispatch(setReduxItems(res.data.items));
       })
   }, [])
-  
+
   const handleDelete = (e) => {
     e.preventDefault();
-    
+
     let id = e.target.id;
 
     var config = {
       method: 'delete',
       url: `http://localhost:5000/items/${id}`,
-      headers: { }
+      headers: {}
     };
-    
+
     axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
 
     axios.delete(`http://localhost:5000/items/${id}`).then(res => {
       axios.get('http://localhost:5000/items?email=testuser@gmail.com')
-      .then(res => {
-        setItems(res.data.items);
-        dispatch(setReduxItems(res.data.items));
-      })
+        .then(res => {
+          setItems(res.data.items);
+          dispatch(setReduxItems(res.data.items));
+        })
     })
   }
 
@@ -72,22 +73,24 @@ export default function ShoppingListTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {reduxItems && reduxItems.map((item) => (
-              <TableRow
-                key={item._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {/* {<FoodModal />} */}
-                </TableCell>
-                <TableCell align="center">{item.name}</TableCell>
-                <TableCell align="center">{item.amountConsumed+ " " + item.units}</TableCell>
-                <TableCell align="center">{item.carbonFootprintValue}</TableCell>
-                <TableCell align="center"><Button id={item._id}  onClick={handleDelete} variant="contained" color="error" startIcon={<DeleteIcon />}>
-                  Delete
-                </Button></TableCell>
-              </TableRow>
-            ))}
+            {reduxItems && reduxItems.map((item) => {
+              return (
+                <TableRow
+                  key={item._id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {<FoodModal food={item.name} />}
+                  </TableCell>
+                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{item.amountConsumed + " " + item.units}</TableCell>
+                  <TableCell align="center">{item.carbonFootprintValue}</TableCell>
+                  <TableCell align="center"><Button id={item._id} onClick={handleDelete} variant="contained" color="error" startIcon={<DeleteIcon />}>
+                    Delete
+                  </Button></TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>
