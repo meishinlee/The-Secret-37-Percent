@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { getFoodFoodprint } from './foodfunction';
 
 const style = {
     position: 'absolute',
@@ -17,21 +18,39 @@ const style = {
     p: 4,
 };
 
-const FoodModal = (food, footprint) => {
+const FoodModal = (props) => {
         const [alternatives, setAlternatives] = React.useState([]);
         const [open, setOpen] = React.useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
 
-        var alternativesHM = [];
-        const jsonData= require('./foodItemCarbonFootprint.json'); 
-        for (let i = 0; i < jsonData.length; i++) {
-          if (jsonData[i]['TYPOLOGY'] == jsonData[food]['TYPOLOGY']) {
-            if (jsonData[i]['CARBON_FOOTPRINT_FOOD_ITEM'] < jsonData[food]['CARBON_FOOTPRINT_FOOD_ITEM']) {
-              alternativesHM.push(jsonData[i]['FOOD_ITEM']);
-            }
-          }
-        }
+        let alternativesHM = getFoodFoodprint('TOFU');
+
+        // var alternativesHM = [];
+        // const jsonData= require('./foodItemCarbonFootprint.json'); 
+
+        // let myFood = 'TOFU'
+        // let curFoodTypology
+        // let carbonFoodPrintTypology
+        // for (let i = 0; i < jsonData.length; i++) {
+        //   // console.log(jsonData[i]['FOOD_ITEM'], 'item')
+        //     if (jsonData[i]['FOOD_ITEM'] == myFood) {
+        //         curFoodTypology = jsonData[i].FOOD_TYPOLOGY;
+        //         carbonFoodPrintTypology = jsonData[i].CARBON_FOOTPRINT_TYPOLOGY;
+        //         break;
+        //     }
+        // }
+        // console.log(curFoodTypology)
+
+        // for (let i = 0; i < jsonData.length; i++) {
+        //   //console.log(jsonData[i].FOOD_TYPOLOGY);
+        //   if (jsonData[i].FOOD_TYPOLOGY == curFoodTypology) {
+        //   //if (jsonData[i].FOOD_TYPOLOGY == jsonData[food].FOOD_TYPOLOGY) {
+        //     if (jsonData[i]['CARBON_FOOTPRINT_TYPOLOGY'] < carbonFoodPrintTypology) {
+        //       alternativesHM.push(jsonData[i]['FOOD_ITEM']);
+        //     }
+        //   }
+        // }
 
   return (
     <div>
